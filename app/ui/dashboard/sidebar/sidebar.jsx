@@ -1,3 +1,5 @@
+"use client"
+
 import { title } from "process";
 import styles from "./sidebar.module.css";
 import Image from "next/image";
@@ -82,14 +84,14 @@ const menuItems = [
 const Sidebar = () => {
     return (
         <div className={styles.container}>
-            <div>
-                <Image src="/avatar.png" alt="" width="50" height="50" />
+            <div className={styles.user}>
+                <Image className={styles.userImage} src="/avatar.png" alt="" width="50" height="50" />
                 <div className={styles.userDetail}>
                     <span className={styles.username}>Sanika Ghugare</span>
                     <span className={styles.userTitle}>Administrator</span>
                 </div>
             </div>
-            <ul>
+            <ul className={styles.list}>
                 {menuItems.map((cat) => (
                     <li key={cat.title}>
                         <span className={styles.cat}>{cat.title}</span>
