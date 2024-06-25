@@ -31,11 +31,29 @@
 
 .list{
     list-style: none;
+    font-size: 13px;
 }
 
 .cat{
     color: var(--textSoft);
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
     margin: 10px 0px;
+}
+
+.logout{
+    padding: 20px;
+    margin: 5px 0px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;border-radius: 10px;
+    background: none;
+    border: none;
+    color: white;
+    width: 100%;
+}
+
+.logout:hover{
+    background-color: #2e374a;
 }

@@ -3,19 +3,19 @@
 import { title } from "process";
 import styles from "./sidebar.module.css";
 import Image from "next/image";
-import MenuLink from "./menuLink/menuLink"; // Ensure this file exists and path is correct
+import MenuLink from "./menuLink/menuLink"; 
 
 import {
     MdDashboard,
-    MdSupervisedUserCircle, // corrected icon name
+    MdSupervisedUserCircle, 
     MdShoppingBag,
     MdAttachMoney,
-    MdWork, // corrected icon name
+    MdWork, 
     MdAnalytics,
     MdPeople,
     MdOutlineSettings,
     MdHelpCenter,
-    MdLogout, // corrected icon name
+    MdLogout, 
 } from "react-icons/md";
 
 const menuItems = [
@@ -28,7 +28,7 @@ const menuItems = [
                 icon: <MdDashboard />
             },
             {
-                title: "Users", // corrected typo from tile to title
+                title: "Users",
                 path: "/dashboard/users",
                 icon: <MdSupervisedUserCircle />
             },
@@ -38,7 +38,7 @@ const menuItems = [
                 icon: <MdShoppingBag />
             },
             {
-                title: "Transactions", // corrected typo from Trasactions to Transactions
+                title: "Transactions",
                 path: "/dashboard/transactions",
                 icon: <MdAttachMoney />
             },
@@ -101,6 +101,10 @@ const Sidebar = () => {
                     </li>
                 ))}
             </ul>
+            <button className={styles.logout}>
+                <MdLogout />
+                Logout
+            </button>
         </div>
     );
 };
