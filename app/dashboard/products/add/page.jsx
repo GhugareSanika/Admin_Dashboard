@@ -11,8 +11,8 @@ const AppProductPage = () => {
                     <option value="phone">Phone</option>
                     <option value="computer">Computer</option>
                 </select>
-                <input type="number" placeholder="price" name="price"/>
-                <input type="number" placeholder="stock" name="stock"/>
+                <input type="text" placeholder="price" name="price"/>
+                <input type="text" placeholder="stock" name="stock"/>
                 <input type="text" placeholder="color" name="color"/>
                 <input type="text" placeholder="size" name="size"/>
                 <textarea 
