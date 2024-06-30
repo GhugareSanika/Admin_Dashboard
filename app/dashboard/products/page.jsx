@@ -1,10 +1,90 @@
-import styles from "@/app/ui/dashboard/users/users.module.css";
+// import styles from "@/app/ui/dashboard/users/users.module.css";
+// import Search from "@/app/ui/dashboard/search/search";
+// import Pagination from "@/app/ui/dashboard/pagination/pagination";
+// import Link from "next/link";
+// import Image from "next/image";
+// import {searchParams} from "next/navigation"
+// import {fetchProducts} from "@/app/lib/data"
+
+// const ProuductPage = async () => {
+//     const q= searchParams?.q || "";
+//     const page= searchParams?.page|| 1;
+//     const {count,products} = await fetchProducts(q,page);
+//     return (
+//         <div className={styles.container}>
+//             <div className={styles.top}>
+//                 <Search placeholder="Search for a product..." />
+//                 <Link href="/dashboard/products/add">
+//                     <button className={styles.addButton}>Add New</button>
+//                 </Link>
+//             </div>
+//             <table className={styles.table}>
+//                 <thead>
+                    
+//                     <tr>
+//                         <td>Title</td>
+//                         <td>Description</td>
+//                         <td>Price</td>
+//                         <td>Created At</td>
+//                         <td>Stock</td> 
+//                         <td>Action</td>
+//                     </tr>
+//                 </thead>
+//                 <tbody>
+//                     {products.map(product =>(    
+//                         <tr key={product._id}>
+//                             <td>
+//                                 <div className={styles.product}>
+//                                     <Image 
+//                                         src={product.img || "/Noproduct.webp"}
+//                                         alt="User Avatar"
+//                                         width={40} 
+//                                         height={40}
+//                                         className={styles.productImage}
+//                                     />
+//                                     {product.title}
+//                                 </div>
+//                             </td>
+//                             <td>{product.Desc}</td>
+//                             <td>${product.price}</td>
+//                             <td>{product.createdAt.toString().slice(4,16)}</td>
+//                             <td>{product.stock}</td>
+//                             <td>
+//                                 <div className={styles.buttons}>
+//                                     <Link href={`/dashboard/products/${product.id}`}>
+//                                         <button className={`${styles.button} ${styles.view}`}>
+//                                             View
+//                                         </button>
+//                                     </Link>
+//                                     <button className={`${styles.button} ${styles.delete}`}>
+//                                         Delete
+//                                     </button>
+//                                 </div>
+//                             </td>
+//                         </tr>
+//                     ))}
+//                 </tbody>
+//             </table> 
+//             <Pagination /> 
+//         </div>
+//     );
+// };
+
+// export default ProuductPage;
+
+
+import styles from "@/app/ui/dashboard/products/products.module.css";
 import Search from "@/app/ui/dashboard/search/search";
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import Link from "next/link";
 import Image from "next/image";
+import { fetchProducts } from "@/app/lib/data";
 
-const ProuductPage = () => {
+const ProductPage = async ({searchParams}) => {
+    const q = searchParams?.q || "";
+    const page = searchParams?.page || 1;
+    const { count, products } = await fetchProducts(q, page);
+    
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -25,41 +105,43 @@ const ProuductPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div className={styles.product}>
-                                <Image 
-                                    src="/Noproduct.webp"
-                                    alt="User Avatar"
-                                    width={40} 
-                                    height={40}
-                                    className={styles.productImage}
-                                />
-                                Iphone
-                            </div>
-                        </td>
-                        <td>Desc</td>
-                        <td>$999</td>
-                        <td>27.06.2024</td>
-                        <td>10</td>
-                        <td>
-                            <div className={styles.buttons}>
-                                <Link href="/dashboard/products/test">
-                                    <button className={`${styles.button} ${styles.view}`}>
-                                        View
+                    {products.map(product => (
+                        <tr key={product._id}>
+                            <td>
+                                <div className={styles.product}>
+                                    <Image 
+                                        src={product.img || "/Noproduct.webp"}
+                                        alt="User Avatar"
+                                        width={40}
+                                        height={40}
+                                        className={styles.productImage}
+                                    />
+                                    {product.title}
+                                </div>
+                            </td>
+                            <td>{product.Desc}</td>
+                            <td>${product.price}</td>
+                            <td>{product.createdAt ? product.createdAt.toString().slice(4, 16) : "N/A"}</td>
+                            <td>{product.stock}</td>
+                            <td>
+                                <div className={styles.buttons}>
+                                    <Link href={`/dashboard/products/${product.id}`}>
+                                        <button className={`${styles.button} ${styles.view}`}>
+                                            View
+                                        </button>
+                                    </Link>
+                                    <button className={`${styles.button} ${styles.delete}`}>
+                                        Delete
                                     </button>
-                                </Link>
-                                <button className={`${styles.button} ${styles.delete}`}>
-                                    Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
-            </table> 
-            <Pagination />
+            </table>
+            <Pagination count={count}/>
         </div>
     );
 };
 
-export default ProuductPage;
+export default ProductPage;
