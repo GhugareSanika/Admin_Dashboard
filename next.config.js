@@ -24,6 +24,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "tse1.mm.bing.net",
       },
+      {
+        protocol: "https",
+        hostname: "png.pngtree.com",
+      },
     ],
   },
 };

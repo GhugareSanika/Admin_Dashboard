@@ -85,6 +85,7 @@ import { User, Product } from "./models";
 import { connectToDB } from "./utils";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
+import { signIn } from "../auth";
 
 export const addUser = async (formData) => {
     const { username, email, password, phone, address, isAdmin, isActive } = Object.fromEntries(formData);
@@ -251,4 +252,194 @@ export const deleteProduct = async (formData) => {
     }
 
     revalidatePath("/dashboard/products");
+};
+
+
+// export const authenticate = async (prevState, formData) => {
+//     if (!formData) {
+//         console.log("formData is undefined or null");
+//         throw new Error("Form data is required");
+//     }
+
+//     try {
+//         console.log("formData:", formData); // Log the formData to check its content
+//         const { username, password } = Object.fromEntries(formData);
+
+//         await signIn("credentials", { username, password });
+//     } catch (err) {
+//         console.log(err);
+//         if (err.message.includes("CredentialsSignin")) {
+//             return "Wrong Credentials";
+//         }
+//         throw err;
+//     }
+// };
+
+// export const authenticate = async (prevState, formData) => {
+//     if (!formData) {
+//         console.log("formData is undefined or null");
+//         throw new Error("Form data is required");
+//     }
+
+//     try {
+//         console.log("formData:", formData); // Log the formData to check its content
+//         const { username, password } = formData;
+
+//         console.log("username:", username);
+//         console.log("password:", password);
+
+//         await signIn("credentials", { username, password });
+//     } catch (err) {
+//         console.log(err);
+//         if (err.message.includes("CredentialsSignin")) {
+//             return "Wrong Credentials";
+//         }
+//         throw err;
+//     }
+// };
+
+// export const authenticate = async (prevState, formData) => {
+//     if (!formData) {
+//         console.log("formData is undefined or null");
+//         throw new Error("Form data is required");
+//     }
+
+//     try {
+//         console.log("formData:", formData); // Log the formData to check its content
+//         const { username, password } = formData;
+
+//         console.log("username:", username);
+//         console.log("password:", password);
+
+//         const result = await signIn("credentials", { username, password });
+        
+//         if (!result || result.error) {
+//             console.log("Authentication result:", result);
+//             return "Wrong Credentials";
+//         }
+
+//         console.log("Authentication successful:", result);
+//         return result;
+//     } catch (err) {
+//         console.log("Error during authentication:", err);
+//         if (err.message.includes("CredentialsSignin")) {
+//             return "Wrong Credentials";
+//         }
+//         throw err;
+//     }
+// };
+
+// export const authenticate = async (prevState, formData) => {
+//     const { username, password } = Object.fromEntries(formData);
+  
+//     try {
+//       await signIn("credentials", { username, password });
+//     } catch (err) {
+//       if (err.message.includes("CredentialsSignin")) {
+//         return "Wrong Credentials";
+//       }
+//       throw err;
+//     }
+//   };
+
+// export const authenticate = async (prevState, formData) => {
+//     // Check if formData is defined and not null
+//     if (!formData) {
+//         console.log("formData is undefined or null");
+//         //throw new Error("Form data is required");
+//     }
+
+//     // Convert formData to an object
+//     const dataEntries = Object.fromEntries(formData);
+
+//     // Destructure username and password from the data entries
+//     const { username, password } = dataEntries;
+
+//     try {
+//         // Log username and password for debugging
+//         console.log("username:", username);
+//         console.log("password:", password);
+
+//         // Sign in using NextAuth credentials provider
+//         const result = await signIn("credentials", { username, password });
+
+//         // Check if the authentication result contains an error
+//         if (!result || result.error) {
+//             console.log("Authentication result:", result);
+//             return "Wrong Credentials";
+//         }
+
+//         // Log successful authentication
+//         console.log("Authentication successful:", result);
+//         return result;
+//     } catch (err) {
+//         // Log and handle error
+//         console.log("Error during authentication:", err);
+//         if (err.message.includes("CredentialsSignin")) {
+//             return "Wrong Credentials";
+//         }
+//         throw err;
+//     }
+// };
+
+
+
+export const authenticate = async (prevState, formData) => {
+    // Check if formData is defined and not null
+    if (!formData) {
+        console.log("formData is undefined or null");
+        return "Form data is required"; // Return an error message or handle appropriately
+    }
+
+    let dataEntries;
+    
+    try {
+        // Check if formData is an instance of FormData
+        if (formData instanceof FormData) {
+            // Convert FormData to an object
+            dataEntries = Object.fromEntries(formData.entries());
+        } else if (typeof formData === 'object') {
+            // If formData is already an object
+            dataEntries = formData;
+        } else {
+            throw new Error("Unsupported formData type");
+        }
+
+        // Destructure username and password from the data entries
+        const { username, password } = dataEntries;
+
+        // Log username and password for debugging
+        console.log("username:", username);
+        console.log("password:", password);
+
+        // Sign in using NextAuth credentials provider
+        const result = await signIn("credentials", {
+            username,
+            password,
+            redirect: false, // Disable automatic redirect after sign-in
+        });
+
+        // Check if the authentication result contains an error
+        if (!result || result.error) {
+            console.log("Authentication result:", result);
+            return "Wrong Credentials"; // Handle wrong credentials scenario
+        }
+
+        // Log successful authentication
+        console.log("Authentication successful:", result);
+        
+        // Redirect the user to /dashboard if authentication is successful
+        if (typeof window !== 'undefined') {
+            window.location.href = '/dashboard';
+        }
+
+        return result; // Return the authentication result
+    } catch (err) {
+        // Log and handle error
+        console.log("Error during authentication:", err);
+        if (err.message.includes("CredentialsSignin")) {
+            return "Wrong Credentials";
+        }
+        throw err;
+    }
 };
