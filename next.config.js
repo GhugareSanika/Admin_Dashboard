@@ -1,4 +1,3 @@
-  
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -14,6 +13,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "png.pngtree.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn4.vectorstock.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
       },
     ],
   },
